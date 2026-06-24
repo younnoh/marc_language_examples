@@ -1,0 +1,17 @@
+services:
+  find-mr:
+    build:
+      context: ./java-marc4j
+    # The 200 MB data file is mounted read-only instead of being baked into the
+    # image. /marc-records is where the app's default path resolves (WORKDIR is
+    # /app, and the default file is ../marc-records/CUL_20260530_194500_111.xml).
+    volumes:
+      - ./marc-records:/marc-records:ro
+
+  find-mr-py:
+    build:
+      context: ./python-pymarc
+    # Same data file, mounted read-only. main.py derives its default path from
+    # the script location (/app/main.py), which lands at /marc-records here too.
+    volumes:
+      - ./marc-records:/marc-records:ro

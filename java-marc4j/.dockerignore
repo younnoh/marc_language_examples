@@ -1,0 +1,2 @@
+# Built locally on the host — let the build stage produce these inside the image.
+target/

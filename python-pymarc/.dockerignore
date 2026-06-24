@@ -1,0 +1,4 @@
+# Host-only artifacts — not needed inside the image.
+.venv
+__pycache__/
+*.py[oc]

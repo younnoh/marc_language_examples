@@ -1,0 +1,28 @@
+# --- MARC data files ---
+# Ignore the full ~200 MB feed, but DO commit the small gzipped sample
+# (marc-records/sample.xml.gz) that the apps default to.
+marc-records/*.xml
+
+# --- Scratch / generated output ---
+list_*.txt
+
+# --- Java / Maven (java-marc4j) ---
+target/
+*.class
+
+# --- Python (python-pymarc) ---
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info/
+.venv/
+
+# --- IDE / editor ---
+.idea/
+*.iml
+.vscode/
+
+# --- OS ---
+.DS_Store

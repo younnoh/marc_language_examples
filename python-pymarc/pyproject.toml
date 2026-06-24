@@ -1,0 +1,9 @@
+[project]
+name = "python-pymarc"
+version = "0.1.0"
+description = "Find MARC records with an 876$z of 'MR' using pymarc"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "pymarc>=5.2.0",
+]
