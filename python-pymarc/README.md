@@ -11,7 +11,7 @@ straight into `pymarc.parse_xml`), so the committed sample stays compressed.
 ## Run
 
 ```bash
-# uses ../marc-records/sample.xml.gz (the committed sample) by default
+# uses ../marc-records/marc_language_examples.xml (the committed sample) by default
 uv run main.py
 
 # or point it at a different MARCXML file (plain .xml or .gz)
@@ -35,11 +35,14 @@ read-only. See the [root README](../README.md) for details.
 
 ## Output
 
-Prints the `001` control number of each matching record, then a summary:
+Prints info on each matching record, then a summary:
 
 ```
-MATCH  SCSB-14517887
+MATCH  9990349333408651
+TITLE  Pojp wuuj pa tz'utujil.
+CODES quc tzj quc tzj iso639-3
+NOTE  In Tzutuhil; includes Tzutuhil-Spanish glossary.
 ...
-Scanned 5000 records, found 196 with 876$z = 'MR'.
-Elapsed time: 1.11s
+Scanned 14 records, found 13 with ISO 639-3 codes or language note.
+Elapsed time: 0.02s
 ```
