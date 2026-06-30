@@ -19,7 +19,7 @@ def get_codes(record):
     """Return 041 with ISO 639-3 codes if present."""
     for field in record.get_fields("041"):
         if field.indicator2 == '7':
-            for subfield in record.get_subfields('2'):
+            for subfield in field.get_subfields('2'):
                 if subfield == 'iso639-3':
                     return field.value()
 
@@ -39,15 +39,28 @@ def main():
     def handle(record):
         nonlocal matches, total
         total += 1
+        control_number = record["001"].data if record["001"] else "(no 001)"
         codes = get_codes(record)
         note = get_note(record)
         if codes and note:
             matches += 1
-            # 001 is the control number; print it so we can see which records matched.
-            control_number = record["001"].data if record["001"] else "(no 001)"
             print(f"\nMATCH  {control_number}")
-            print(f"CODES. {codes}")
+            print(f"TITLE  {record.title}")
+            print(f"CODES {codes}")
             print(f"NOTE  {note}")
+        elif codes:
+            matches += 1
+            print(f"\nMATCH  {control_number}")
+            print(f"TITLE  {record.title}")
+            print(f"CODES {codes}")
+        elif note:
+            matches += 1
+            print(f"\nMATCH  {control_number}")
+            print(f"TITLE  {record.title}")
+            print(f"NOTE  {note}")
+        else:
+            print(f"\nNO MATCH  {control_number}")
+            print(f"TITLE  {record.title}")
 
     # Alternatively, you could load every record into a list first:
     #   from pymarc import parse_xml_to_array
