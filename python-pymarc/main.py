@@ -83,7 +83,7 @@ def main():
         map_xml(handle, str(path))
 
     elapsed = time.monotonic() - start
-    print(f"\nScanned {total} records, found {matches} with ISO 639-3 codes and language note.")
+    print(f"\nScanned {total} records, found {matches} with ISO 639-3 codes or language note.")
     print(f"Elapsed time: {elapsed:.2f}s")
 
 
