@@ -1,6 +1,6 @@
 # python-pymarc
 
-Finds MARC records whose **876 field has a subfield `$z` equal to `MR`**, using
+Finds MARC records with **ISO 639-3 codes in the 041 or a 546 language note**, using
 [pymarc](https://pymarc.readthedocs.io/).
 
 It reads a MARCXML file in `../marc-records/` and streams it record-by-record
