@@ -13,16 +13,20 @@ from pathlib import Path
 from pymarc import XmlHandler, map_xml, parse_xml
 
 # Default to the shared, gzipped sample that sits next to the two example projects.
-DEFAULT_FILE = Path(__file__).resolve().parent.parent / "marc-records" / "sample.xml.gz"
+DEFAULT_FILE = Path(__file__).resolve().parent.parent / "marc-records" / "marc_language_examples.xml"
 
+def get_codes(record):
+    """Return 041 with ISO 639-3 codes if present."""
+    for field in record.get_fields("041"):
+        if field.indicator2 == '7':
+            for subfield in record.get_subfields('2'):
+                if subfield == 'iso639-3':
+                    return field.value()
 
-def has_mr(record):
-    """Return True if any 876 field has a subfield $z whose value is 'MR'."""
-    for field in record.get_fields("876"):
-        if "MR" in field.get_subfields("z"):
-            return True
-    return False
-
+def get_note(record):
+    """Return 546 note if present."""
+    for field in record.get_fields("546"):
+        return field.format_field()
 
 def main():
     path = Path(sys.argv[1]) if len(sys.argv) > 1 else DEFAULT_FILE
@@ -30,15 +34,20 @@ def main():
     matches = 0
     total = 0
     start = time.monotonic()
+    print(f"Start time: {start:.2f}s")
 
     def handle(record):
         nonlocal matches, total
         total += 1
-        if has_mr(record):
+        codes = get_codes(record)
+        note = get_note(record)
+        if codes and note:
             matches += 1
             # 001 is the control number; print it so we can see which records matched.
             control_number = record["001"].data if record["001"] else "(no 001)"
-            print(f"MATCH  {control_number}")
+            print(f"\nMATCH  {control_number}")
+            print(f"CODES. {codes}")
+            print(f"NOTE  {note}")
 
     # Alternatively, you could load every record into a list first:
     #   from pymarc import parse_xml_to_array
@@ -61,7 +70,7 @@ def main():
         map_xml(handle, str(path))
 
     elapsed = time.monotonic() - start
-    print(f"\nScanned {total} records, found {matches} with 876$z = 'MR'.")
+    print(f"\nScanned {total} records, found {matches} with ISO 639-3 codes and language note.")
     print(f"Elapsed time: {elapsed:.2f}s")
 
 
